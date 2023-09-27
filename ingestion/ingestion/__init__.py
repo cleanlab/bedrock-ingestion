@@ -1,7 +1,7 @@
 import os
 
-from flask import Flask, jsonify
-from flask.typing import ResponseReturnValue
+from flask import Flask
+from sqlalchemy import text
 
 # initialize flask app and configure database URI
 app = Flask(__name__)
@@ -14,6 +14,20 @@ app.config[
 
 with app.app_context():
     import ingestion.api
-    from ingestion.db import initialize_db
+    from ingestion.db import db, initialize_db
 
     initialize_db(app)
+
+    # setup dummy data to use when testing `/view` function
+    db.session.execute(
+        text("CREATE TABLE dummy_data (foo int, bar varchar, baz varchar)"),
+    )
+    db.session.execute(
+        text(
+            "INSERT INTO dummy_data (foo, bar, baz) "
+            "VALUES "
+            "(1, 'bar1', 'blah'), "
+            "(2, 'bar2', 'halb')"
+        )
+    )
+    db.session.commit()

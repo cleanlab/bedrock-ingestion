@@ -33,3 +33,9 @@ code here are some ideas:
   arbitrary Postgres table (ignoring the safety implications of this...)
   - This should get you more comfortable with using Flask + SQLAlchemy
   - Might even come in handy during the interview itself!
+  - When the app initializes, it will create a `dummy_data` table in Postgres
+    with the following contents
+    | foo | bar    | baz    |
+    |-----|--------|--------|
+    | 1   | "bar1" | "blah" |
+    | 2   | "bar2" | "halb" |
